@@ -9,7 +9,11 @@ import TodoItem from './TodoItem.vue'
 
 export default defineComponent({
   components: { TodoItem },
-  setup() {
+  props:{
+    filter: String
+  },
+  setup(props) {
+    console.log(props.filter)
     const store = useStore()
     const items = computed(() => store.state.editableItems)
     return { items }

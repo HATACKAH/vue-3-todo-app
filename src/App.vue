@@ -1,27 +1,55 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-</template>
-
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
-
+import { computed, defineComponent, onMounted } from 'vue'
+import NewItem from './components/NewItem.vue'
+import TodoList from './components/TodoList.vue'
+import { useStore } from './store'
+import { ActionTypes } from './store/actions'
+import { MutationType } from './store/mutations'
+import { state } from './store/state'
 export default defineComponent({
-  name: 'App',
-  components: {
-    HelloWorld
+  components: { TodoList, NewItem },
+  setup() {
+    const store = useStore()
+    const loading = computed(() => store.state.loading)
+    onMounted(() => store.dispatch(ActionTypes.GetTodoItems))
+    const completedCount = computed(() => store.getters.completedCount)
+    const totalCount = computed(() => store.getters.totalCount)
+    const sortBy = (value: string) => {store.commit(MutationType.FilterListBy, value)}
+    const clearCompleted = () => {store.dispatch(ActionTypes.DeleteCompleted)}
+    return { loading, completedCount, totalCount, sortBy, clearCompleted }
   }
-});
+})
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<template>
+  <div class="container mx-auto mt-4">
+    <h1 class="text-2xl text-center p-2 font-bold">
+      Vue 3 Todo App with Typescript and Vuex
+    </h1>
+
+    <div v-if="loading">
+      <h3 class="text-center mt-4">Loading...</h3>
+    </div>
+    <div v-else>
+      <NewItem />
+      <TodoList />
+      <div class="flex justify-around	 mt-2">
+        <span> {{totalCount - completedCount}} item left. </span>
+        <div class="flex justify-around">
+          <button class="bg-transparent hover:bg-green-700 text-green-700 font-semibold hover:text-white mr-4 px-4 border border-green-500 hover:border-transparent rounded" @click="sortBy('all')">
+              All
+          </button>
+          <button class="bg-transparent hover:bg-green-700 text-green-700 font-semibold hover:text-white mr-4 px-4 border border-green-500 hover:border-transparent rounded" @click="sortBy('active')">
+            Active
+          </button>
+          <button class="bg-transparent hover:bg-green-700 text-green-700 font-semibold hover:text-white mr-4 px-2 border border-green-500 hover:border-transparent rounded" @click="sortBy('completed')">
+            Completed
+          </button>
+        </div>
+        <button class="bg-transparent hover:bg-red-700 text-red-700 font-semibold hover:text-white px-4 border border-red-500 hover:border-transparent rounded  disabled:opacity-50" @click="clearCompleted" :disabled="completedCount === 0">
+          Clear completed
+        </button>
+      </div>
+    </div>
+  </div>
+</template>

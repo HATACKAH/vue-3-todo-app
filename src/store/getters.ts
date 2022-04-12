@@ -5,7 +5,6 @@ import { State } from './state'
 export type Getters = {
   completedCount(state: State): number
   totalCount(state: State): number
-  completedTasks(state: State) : void
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -14,8 +13,5 @@ export const getters: GetterTree<State, State> & Getters = {
   },
   totalCount(state) {
     return state.items.length
-  },
-  completedTasks(state) {
-    state.items.filter(i => i.completed)
   }
 }

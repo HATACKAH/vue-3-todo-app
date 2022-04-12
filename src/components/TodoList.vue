@@ -3,19 +3,21 @@
 </template>
 
 <script lang="ts">
+import {useRoute} from 'vue-router'
 import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 import TodoItem from './TodoItem.vue'
+import { MutationType } from '@/store/mutations'
 
 export default defineComponent({
   components: { TodoItem },
-  props:{
-    filter: String
-  },
-  setup(props) {
-    console.log(props.filter)
+  setup() {
     const store = useStore()
-    const items = computed(() => store.state.editableItems)
+    const route=useRoute();
+    const items = computed(() => {
+      store.commit(MutationType.FilterListBy, route.path)
+      return store.state.editableItems
+      })
     return { items }
   }
 })

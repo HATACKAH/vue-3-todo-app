@@ -19,10 +19,7 @@ export default defineComponent({
 
 <template>
   <div class="container mx-auto mt-4">
-    <router-view>
-    <h1 class="text-2xl text-center p-2 font-bold">
-      Vue 3 Todo App with Typescript and Vuex
-    </h1>
+    <router-view></router-view>
     <div v-if="loading">
       <h3 class="text-center mt-4">Loading...</h3>
     </div>
@@ -31,6 +28,6 @@ export default defineComponent({
       <TodoList />
       <FooterButtons />
     </div>
-   </router-view>
+
   </div>
 </template>

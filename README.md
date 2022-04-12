@@ -1,4 +1,7 @@
-# todo-app
+# Тестовая туду аппа
+1) vue-router
+2) Vuex
+3) Vuex-presist для того, чтобы не терялись таски после перезагрузки
 
 ## Project setup
 ```
@@ -19,6 +22,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

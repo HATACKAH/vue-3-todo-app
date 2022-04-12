@@ -4,20 +4,19 @@
     <div class="flex justify-around">
       <button
         class="bg-transparent hover:bg-green-700 text-green-700 font-semibold hover:text-white mr-4 px-4 border border-green-500 hover:border-transparent rounded"
-        @click="sortBy('all')"
-      > <router-link to="{ name: 'All' }">
+        @click="goToPage('all')"
+      >
         All
-        </router-link>
       </button>
       <button
         class="bg-transparent hover:bg-green-700 text-green-700 font-semibold hover:text-white mr-4 px-4 border border-green-500 hover:border-transparent rounded"
-        @click="sortBy('active')"
+        @click="goToPage('active')"
       >
         Active
       </button>
       <button
         class="bg-transparent hover:bg-green-700 text-green-700 font-semibold hover:text-white mr-4 px-2 border border-green-500 hover:border-transparent rounded"
-        @click="sortBy('completed')"
+        @click="goToPage('completed')"
       >
         Completed
       </button>
@@ -33,18 +32,18 @@
 </template>
 
 <script lang="ts">
+import router from '@/router'
 import { store } from '@/store'
 import { ActionTypes } from '@/store/actions'
-import { MutationType } from '@/store/mutations'
 import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
     setup() {
       const clearCompleted = () => {store.dispatch(ActionTypes.DeleteCompleted)}
       const completedCount = computed(() => store.getters.completedCount)
-      const sortBy = (value: string) => {store.commit(MutationType.FilterListBy, value)}
+      const goToPage = (value: string) => {router.push(value)}
       const totalCount = computed(() => store.getters.totalCount)
-      return { completedCount, totalCount, sortBy, clearCompleted }
+      return { completedCount, totalCount, goToPage, clearCompleted }
     },
 })
 </script>

@@ -1,16 +1,39 @@
-import  { parseQuery, RouteRecordRaw  } from 'vue-router'
-import App from '../App.vue'
-import TodoList from '../components/TodoList.vue'
+import  { RouteRecordRaw  } from 'vue-router'
+import AllTasks from '../views/AllTasks.vue'
+import CompletedTasks from '../views/CompletedTasks.vue'
+import ActiveTasks from '../views/ActiveTasks.vue'
 import { createWebHistory, createRouter } from "vue-router";
 
 
 const routes: Array<RouteRecordRaw > = [
-    {path:'/', component: App, name:'Home' },
     {
-        path: '/all',
-        component: TodoList,
-        props: true,
-        name: 'All'}
+        path:'/',
+        components: {
+            default: AllTasks,
+        },
+    },
+    {
+        path:'/all',
+        components: {
+            default: AllTasks,
+        },
+    },
+    {
+        path:'/completed',
+        components: {
+            default: CompletedTasks,
+        },
+    },
+    {
+        path:'/active',
+        components: {
+            default: ActiveTasks,
+        },
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: "/",
+      }
 ]
 
 const router = createRouter({

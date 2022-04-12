@@ -44,19 +44,22 @@ export const mutations: MutationTree<State> & Mutations = {
     let res: TodoItem[] = [];
     const items = state.items;
     switch (filter_query) {
-      case "active":
+      case "/active":
         res = items.filter(item => {
           return !item.completed;
         })
         break;
-      case "completed":
+      case "/completed":
         res = items.filter(item => {
           return item.completed;
         })
         break;
-      case "all":
+      case "/all":
         res = items;
         break;
+      default:
+        res = items
+        break
     }
     state.editableItems = [...res];
   },
